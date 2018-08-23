@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChartService } from './shared/chart.service';
+
 
 
 @Component({
@@ -10,7 +10,7 @@ import { ChartService } from './shared/chart.service';
 export class AppComponent {
   title = 'app';
 
-  constructor(private _chartService:ChartService){
-    
+  constructor(){
+
   }
 }
