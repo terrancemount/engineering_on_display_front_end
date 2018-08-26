@@ -11,6 +11,7 @@ import { SlideshowComponent } from './slideshow/slideshow.component';
 import { SlideshowService } from './services/slideshow.service';
 import { BuildingService } from './services/building.service';
 import { SensorService } from './services/sensor.service';
+import { UserService } from './services/user.service';
 
 
 
@@ -31,7 +32,8 @@ import { SensorService } from './services/sensor.service';
   providers:[
     SlideshowService,
     BuildingService,
-    SensorService
+    SensorService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
