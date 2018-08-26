@@ -1,4 +1,7 @@
 
 <!-- Basic structure of the page -->
-<app-nav></app-nav>
-<router-outlet></router-outlet>
+<app-nav *ngIf='showNavbar'></app-nav>
+<div class='container height-90'>
+  <router-outlet></router-outlet>
+</div>
+<app-slideshow *ngIf='showSlideShow'></app-slideshow>

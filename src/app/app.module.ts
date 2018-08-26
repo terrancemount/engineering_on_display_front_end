@@ -6,6 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
+import { SlideshowComponent } from './slideshow/slideshow.component';
+import { SlideshowService } from './services/slideshow.service';
+import { BuildingService } from './services/building.service';
+import { SensorService } from './services/sensor.service';
+
 
 
 
@@ -15,13 +21,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppComponent,
     NavComponent,
     DashboardComponent,
-
-
+    HomeComponent,
+    SlideshowComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
-
+    AppRoutingModule,
+  ],
+  providers:[
+    SlideshowService,
+    BuildingService,
+    SensorService
   ],
   bootstrap: [AppComponent]
 })
