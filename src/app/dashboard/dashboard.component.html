@@ -1,10 +1,27 @@
 <!-- container for the contense to offset form the sides -->
 
   <div class='row'>
-    <div class='col'><h3>{{buildingName}}</h3></div>
-    <div class='col'><img [src]='buildingImgUrl' [alt]='buildingImgAltText'/></div>
+    <div class='col'><h3>{{building.name}}</h3></div>
+    <div class='col'><img [src]='building.imgUrl'/></div>
   </div>
+
+  <div>
+   start time = {{start | date:"h:mm:ss:sss"}}
+   <br/>
+   end time = {{end | date:"h:mm:ss:sss"}}
+  </div>
+
+  <div>
+    {{sensorData | json}}
+  </div>
+  [<span *ngFor='let time of sensorTime'>{{time | date:'h:mm:ss:sss'}}, </span>]
 <!--
+  <div *ngFor='let sensor of sensors'>
+    <h4>{{sensor.name}}</h4>
+    [<span *ngFor='let num of sensor.data'>{{num}}, </span>]
+
+  </div>
+
   <div class='row'>
     <div class='col'>
       <canvas id='canvas'>{{chart}}</canvas>

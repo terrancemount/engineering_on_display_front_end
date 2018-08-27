@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { IBuildingModel } from '../models/building.model';
+import { BuildingService } from '../services/building.service';
+import { SensorDataService } from '../services/sensor-data.service';
+import { SensorService } from '../services/sensor.service';
+import { ISensorModel } from '../models/sensor.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,13 +11,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  buildingName: string = 'Engineering and Industry Building';
-  buildingImgUrl: string = '/assets/img/EIB-small.jpg';
-  buildingImgAltText: string = 'EIB building exterior';
+  building:IBuildingModel;
+  sensors:ISensorModel[];
+  sensorData = [];
+  sensorTime = [10, 20, 30];
+  start:number; //start time
+  end:number; //end time
 
-  constructor() { }
+  constructor(private _buildingService:BuildingService,
+    private _sensorDataService:SensorDataService,
+    private _sensorService:SensorService) {}
 
   ngOnInit() {
+    //todo get the id from the route link. Hard coded to EIB
+    this.building = this._buildingService.getBuilding(1);
+    this.sensors = this._sensorService.getSensorsForBuilding(1);
+
+    this.end = this._sensorDataService.floorTimeFifteenMinutes(Date.now());
+    this.start = this._sensorDataService.calcStartTimePerNumberOfFifteenMinuteIntervals(this.end, 10);
+
+    console.log(`start time = ${this.start}, end time = ${this.end}`);
+
+    //go through each of the sensors and push a meaningful label onto the senors.
+    this.sensors.forEach(sensor => {
+      this.sensorData.push({
+        name: sensor.label,
+        data: this._sensorDataService.getSensorData(sensor.id, this.start, this.end)
+      });
+    });
+
+    //get some meaningful times
+    try{
+      this.sensorTime = this._sensorDataService.getSensorTime(1, this.start, this.end);
+    }
+    catch(err){
+      console.log(err);
+    }
 
   }
 
