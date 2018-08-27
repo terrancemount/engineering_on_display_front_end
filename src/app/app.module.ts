@@ -8,10 +8,11 @@ import { NavComponent } from './nav/nav.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
-import { SlideshowService } from './services/slideshow.service';
+import { SlideService } from './services/slide.service';
 import { BuildingService } from './services/building.service';
 import { SensorService } from './services/sensor.service';
 import { UserService } from './services/user.service';
+import { ReshapeChartService } from './services/reshape-chart.service';
 
 
 
@@ -30,10 +31,11 @@ import { UserService } from './services/user.service';
     AppRoutingModule,
   ],
   providers:[
-    SlideshowService,
+    SlideService,
     BuildingService,
     SensorService,
-    UserService
+    UserService,
+    ReshapeChartService
   ],
   bootstrap: [AppComponent]
 })

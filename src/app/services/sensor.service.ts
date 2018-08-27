@@ -10,10 +10,8 @@ import { ISensorModel, IYAxisModel } from '../models/sensor.model';
  */
 export class SensorService {
   sensors: ISensorModel[];
-  yAxes: IYAxisModel[];
   constructor() {
     this.loadMockSensors();
-    this.loadMockYAxis();
   }
 
   /**
@@ -121,30 +119,6 @@ export class SensorService {
       backgroundColor: 'rgb(255, 205, 86)',
       yAxisID: 1,
       iconUrl: '../assets/img/Electrical.png'
-    }];
-  }
-
-  loadMockYAxis() {
-    this.yAxes = [{
-      id: 1,
-      position: 'left',
-      labelString: 'Electrical Usage kWh'
-    }, {
-      id: 2,
-      position: 'left',
-      labelString: 'Electrical Demand kWh'
-    }, {
-      id: 3,
-      position: 'left',
-      labelString: 'Natural Gas Usage kBTUh'
-    }, {
-      id: 4,
-      position: 'left',
-      labelString: 'Natural Gas Demand kBTU'
-    }, {
-      id: 5,
-      position: 'right',
-      labelString: 'Outside Temperature &#176;F'
     }];
   }
 }

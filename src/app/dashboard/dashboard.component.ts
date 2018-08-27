@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit {
   sensorTime = [10, 20, 30];
   start:number; //start time
   end:number; //end time
+  chart;
+  config;
 
   constructor(private _buildingService:BuildingService,
     private _sensorDataService:SensorDataService,
@@ -40,13 +42,8 @@ export class DashboardComponent implements OnInit {
       });
     });
 
-    //get some meaningful times
-    try{
       this.sensorTime = this._sensorDataService.getSensorTime(1, this.start, this.end);
-    }
-    catch(err){
-      console.log(err);
-    }
+
 
   }
 
@@ -97,15 +94,7 @@ const DEFAULT_CHART_CONFIG = {
 /**
  * Used to reshape the SensorModel into a dataset to be used by Chart.js
  */
-const DEFAULT_DATASET = {
-  id: 1,
-  data:[],
-  label: 'Default Label',
-  borderColor: 'rgb(0, 0, 0)',
-  backgroundColor:'rgb(0, 0, 0)',
-  fill: false,
-  yAxisID: 0,
-};
+
 
 /**
  * Used to reshape the YAxisModel model to use with Chart.js.

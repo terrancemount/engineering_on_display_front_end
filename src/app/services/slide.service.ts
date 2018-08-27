@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SlideshowService {
+export class SlideService {
 
   constructor() { }
 
@@ -27,5 +27,5 @@ export class SlideshowService {
 
   deleteSlide(){
     //return boolean if it was deleted
-  } 
+  }
 }
