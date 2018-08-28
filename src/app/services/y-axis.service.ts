@@ -4,6 +4,9 @@ import { IYAxisModel } from '../models/sensor.model';
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * CRUD service for handeling the yAxis config for chart.js.
+ */
 export class YAxisService {
   yAxes: IYAxisModel[];
 
@@ -27,7 +30,7 @@ export class YAxisService {
   }
 
   /**
-   * Post yAxis to the API.
+   * Post yAxis to the API. Post will overwrite the id if there is one.
    * @param yAxis is the yAxis to be posted.
    * @return id of the posted yAxis.
    */
@@ -37,11 +40,33 @@ export class YAxisService {
     return yAxis.id;
   }
 
+
+  /**
+   * Updates the yAxis to the API. Must have a valid ID to update in the model.
+   * @param yAxis is the yAxis to be updated.
+   * @returns id of the updated yAxis.
+   */
   updateYAxis(yAxis:IYAxisModel):number{
     const index = this.yAxes.findIndex(a => a.id === yAxis.id);
     this.yAxes[index] = yAxis;
     return yAxis.id;
   }
+
+  /**
+   * Delete a yAxis from the API.
+   * @param id of the YAxis to be deleted off the API.
+   * @returns true if id was found and deleted, otherwise false.
+   */
+  deleteYAxis(id:number):boolean{
+    const index = this.yAxes.findIndex(a => a.id === id);
+    if(index === undefined){
+      return false;
+    } else{
+      this.yAxes.splice(index, 1);
+      return true;
+    }
+  }
+
   /**
    * Private method to mock a api for the YAxis
    */
