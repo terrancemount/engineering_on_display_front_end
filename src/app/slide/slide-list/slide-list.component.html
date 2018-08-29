@@ -1,0 +1,14 @@
+<table class='table'>
+    <tr>
+      <td></td>
+      <td>id</td>
+      <td>Title</td>
+      <td>Diplay Time(s)</td>
+      <td>Thumbnail</td>
+      <td>Order</td>
+    </tr>
+    <tr *ngFor='let slide of slides | async'
+      app-slide-item
+      [item]='slide' >
+    </tr>
+</table>

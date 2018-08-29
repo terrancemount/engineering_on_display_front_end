@@ -1,0 +1,19 @@
+<!-- create a row for a slide list item -->
+
+
+  <td>
+    <a (click)='delete' class='alert-danger'>delete</a>
+  </td>
+  <td>
+    <a (click)='gotoItem'>{{item.id}}</a>
+  </td>
+  <td>{{item.title}}</td>
+  <td>{{item.displayTime}}</td>
+  <td>
+    <img [src]='item.imgUrl' [title]='item.title' [alt]='altText' class='list-img' />
+  </td>
+  <td>
+    <a (click)='moveItem(direction.up)'>up</a>&nbsp;
+    <a (click)='moveItem(direction.down)'>down</a>
+  </td>
+
