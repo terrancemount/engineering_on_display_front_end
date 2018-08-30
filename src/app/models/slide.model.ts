@@ -5,11 +5,12 @@
 export interface ISlide{
   id?:number;
   imgUrl?: string;
-  title?: string;
+  name?: string;
   caption?: string;
   altText?: string;
   redirectUrl?: string;
   displayTime?: number; //in seconds
   enabled?: boolean;
   order?:number;
+  isDirty?:boolean;
 }

@@ -1,14 +1,50 @@
+<!-- table to show general info on all slides -->
 <table class='table'>
-    <tr>
-      <td></td>
-      <td>id</td>
-      <td>Title</td>
-      <td>Diplay Time(s)</td>
-      <td>Thumbnail</td>
-      <td>Order</td>
-    </tr>
-    <tr *ngFor='let slide of slides | async'
-      app-slide-item
-      [item]='slide' >
-    </tr>
+    <thead>
+      <tr>
+        <th scope='col'></th>
+        <th scope='col'>id</th>
+        <th scope='col'>Title</th>
+        <th scope='col'>Diplay Time(s)</th>
+        <th scope='col'>Thumbnail</th>
+        <th scope='col'>Order</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor='let slide of slides; trackBy:trackSlideFn'>
+        <!-- delete link -->
+        <td>
+          <a (click)='delete(slide.id)'
+            class='alert-danger'>
+            delete
+          </a>
+        </td>
+
+        <!-- goto details link -->
+        <td>
+          <a [routerLink]='["/slide"]'
+            [queryParams]='{id: slide.id}'>
+            {{slide.id}}
+          </a>
+        </td>
+
+        <!-- item.name -->
+        <td [routerLink]='["/dashboard"]'>
+          {{slide.name}}
+        </td>
+
+        <!-- view and edit the time -->
+        <td>
+          <input type="text"
+            (change)="timeChange(slide.id, $event.target.value)"
+            [value] = 'slide.timeChange'/>
+        </td>
+        <td><img [src]='slide.imgUrl' [title]='slide.name' [alt]='altText' class='list-img' />
+        </td>
+        <td>
+          <a (click)='moveItemUp(slide.id)'>up</a>&nbsp;/&nbsp;<a (click)='moveItemDown(slide.id)'>down</a>
+        </td>
+      </tr>
+    </tbody>
 </table>

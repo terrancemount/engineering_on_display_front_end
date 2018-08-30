@@ -14,7 +14,8 @@ import { SensorService } from './services/sensor.service';
 import { UserService } from './services/user.service';
 import { ReshapeChartService } from './services/reshape-chart.service';
 import { SlideListComponent } from './slide/slide-list/slide-list.component';
-import { SlideItemComponent } from './slide/slide-item/slide-item.component';
+import { SlideDetailsComponent } from './slide/slide-details/slide-details.component';
+
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { SlideItemComponent } from './slide/slide-item/slide-item.component';
     HomeComponent,
     SlideshowComponent,
     SlideListComponent,
-    SlideItemComponent,
+    SlideDetailsComponent
   ],
   imports: [
     BrowserModule,
