@@ -24,7 +24,7 @@ export class SensorDataService {
     let numberArray = [];
     let base = config.base;
 
-    for(let i = 0; i < count; i++){
+    for(let i = 0; i <= count; i++){
       base += Math.floor(Math.random()*(config.maxGrow - config.minGrow)) + config.minGrow;
       numberArray.push(base);
     }
@@ -44,15 +44,12 @@ export class SensorDataService {
 
     let count = this.getNumberIntervals(start, end);
     let timeArray = [];
-    console.log(timeArray);
     let i;
 
     //loop for the number of intervals given
     for(i = 0; i <= count; i++){
       timeArray.push(start + (i * MS_PER_FIFTEEN_MINUTES));
     }
-
-    console.log(timeArray);
     return timeArray;
   }
 

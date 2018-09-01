@@ -24,7 +24,8 @@ export class SlideService {
    * @returns a single instance of Islide.
    */
   getSlide(id:number):ISlide{
-    return this.slides.find(s => s.id === id);
+    let slide = this.slides.find(s => s.id === id);
+    return slide;
   }
   /**
    * Post a slide to the API.
@@ -53,7 +54,7 @@ export class SlideService {
    * @param id of the slide to be deleted.
    * @returns boolean if the slide id was found and deleted.
    */
-  deleteslide(id:ISlide):boolean{
+  deleteslide(id:number):boolean{
     const index = this.slides.findIndex(s => s.id === id);
     if(index === undefined){
       return false;
@@ -75,6 +76,7 @@ export class SlideService {
       name: "Building better homes",
       altText: "Candice Blas in church",
       caption: "Candace Blas is a lifetime Anchorage resident, UAA alumna in international studies and the manager of the Church of Love — a cultural hub and neighborhood center located in the heart of the Spenard neighborhood. (Photo by James Evans / University of Alaska Anchorage)",
+      displayOption: 'cover',
       displayTime: 5, //in seconds
       enabled: true,
       order:1
@@ -85,6 +87,7 @@ export class SlideService {
       name: "Health Sciences Summer Program",
       altText: "Dr. Kathryn Milligan-Myhre",
       caption: "Dr. Kathryn Milligan-Myhre, right, leads a microbiology and genetics lab for high school students in the Della Keats Health Sciences Summer Program. (Photo by James Evans / University of Alaska Anchorage)",
+      displayOption: 'cover',
       displayTime: 5, //in seconds
       enabled: true,
       order:2
@@ -95,6 +98,7 @@ export class SlideService {
       name: "Anthropology breaking ground.",
       altText: "Nicholas Taylor",
       caption: "Nicholas Taylor is a record-holding sprinter for UAA’s track and field team and a senior majoring in anthropology with an emphasis on archaeology. Earlier this summer, Taylor partook on his first archaeological dig at the historic Swan Lake, the oldest identified human establishment in North America, estimated to be around 14,200 years old. (Photo courtesy of UAA Athletics).",
+      displayOption: 'cover',
       displayTime: 5, //in seconds
       enabled: true,
       order:3

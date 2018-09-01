@@ -32,5 +32,6 @@ export class AppComponent {
     //check if the url is in the hidden list
     this.showNavbar = !this.hideNavbarPaths.includes(url);
     this.showSlideShow = this.showSlideShowPaths.includes(url);
+    //this.showSlideShow = false;
   }
 }

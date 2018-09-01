@@ -10,6 +10,7 @@ export interface ISlide{
   altText?: string;
   redirectUrl?: string;
   displayTime?: number; //in seconds
+  displayOption?:string;
   enabled?: boolean;
   order?:number;
   isDirty?:boolean;

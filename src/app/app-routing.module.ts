@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { SlideListComponent } from './slide/slide-list/slide-list.component';
+import { SlideDetailsComponent } from './slide/slide-details/slide-details.component';
 
 
 
@@ -13,6 +14,7 @@ import { SlideListComponent } from './slide/slide-list/slide-list.component';
 const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'slide-list', component: SlideListComponent},
+  {path:'slide', component:SlideDetailsComponent},
   {path:'dashboard', component: DashboardComponent},
   {path:'', redirectTo: 'home', pathMatch: 'full'},
 

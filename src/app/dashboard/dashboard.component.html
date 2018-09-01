@@ -1,31 +1,32 @@
-<!-- container for the contense to offset form the sides -->
 
-  <div class='row'>
-    <div class='col'><h3>{{building.name}}</h3></div>
-    <div class='col'><img [src]='building.imgUrl'/></div>
+<div id='dashboar-main'>
+
+
+  <!-- panel-slide-0 -->
+  <div id='panel-0' class='container-fluid prev'>
+    <h1>panel 0</h1>
   </div>
 
-  <div>
-   start time = {{start | date:"h:mm:ss:sss"}}
-   <br/>
-   end time = {{end | date:"h:mm:ss:sss"}}
-  </div>
+   <!-- panel-chart -->
+   <div id='panel-1' class='container'>
 
-  <div>
-    {{sensorData | json}}
-  </div>
-  [<span *ngFor='let time of sensorTime'>{{time | date:'h:mm:ss:sss'}}, </span>]
-<!--
-  <div *ngFor='let sensor of sensors'>
-    <h4>{{sensor.name}}</h4>
-    [<span *ngFor='let num of sensor.data'>{{num}}, </span>]
-
-  </div>
-
-  <div class='row'>
-    <div class='col'>
-      <canvas id='canvas'>{{chart}}</canvas>
+    <div class='d-flex flex-row justify-content-around'>
+      <div><h4>{{building.name}}</h4></div>
+      <div><img class='sm-img' [src]='building.imgUrl'/></div>
     </div>
-  </div>
- -->
+    <hr/>
 
+    <app-chart-line [sensor]='sensors[0]'></app-chart-line>
+  </div>
+
+  <!-- panel-slide-1 -->
+  <div id='panel-2' class='container-fluid next'>
+    <h1>panel 1</h1>
+  </div>
+
+</div>
+
+  <!-- slideshow footer -->
+<div id='ss-select'>
+  <app-slideshow></app-slideshow>
+</div>

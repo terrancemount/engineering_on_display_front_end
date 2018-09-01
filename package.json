@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "presurge": "npm run build",
+    "surge": "surge -p ./dist/EodDashboard -d tm.surge.sh"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule }   from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,8 +15,7 @@ import { UserService } from './services/user.service';
 import { ReshapeChartService } from './services/reshape-chart.service';
 import { SlideListComponent } from './slide/slide-list/slide-list.component';
 import { SlideDetailsComponent } from './slide/slide-details/slide-details.component';
-
-
+import { ChartLineComponent } from './chart/chart-line/chart-line.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +25,12 @@ import { SlideDetailsComponent } from './slide/slide-details/slide-details.compo
     HomeComponent,
     SlideshowComponent,
     SlideListComponent,
-    SlideDetailsComponent
+    SlideDetailsComponent,
+    ChartLineComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
   ],
   providers:[
