@@ -1,45 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavComponent } from './nav/nav.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './home/home.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
-import { SlideService } from './services/slide.service';
-import { BuildingService } from './services/building.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartComponent } from './dashboard/chart/chart.component';
 import { SensorService } from './services/sensor.service';
-import { UserService } from './services/user.service';
-import { ReshapeChartService } from './services/reshape-chart.service';
-import { SlideListComponent } from './slide/slide-list/slide-list.component';
-import { SlideDetailsComponent } from './slide/slide-details/slide-details.component';
-import { ChartLineComponent } from './chart/chart-line/chart-line.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
-    DashboardComponent,
-    HomeComponent,
     SlideshowComponent,
-    SlideListComponent,
-    SlideDetailsComponent,
-    ChartLineComponent
+    DashboardComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    AppRoutingModule,
+    HttpClientModule
   ],
-  providers:[
-    SlideService,
-    BuildingService,
-    SensorService,
-    UserService,
-    ReshapeChartService
-  ],
+  providers: [SensorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

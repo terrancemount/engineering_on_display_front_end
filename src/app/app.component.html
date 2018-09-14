@@ -1,4 +1,2 @@
-
-<!-- Basic structure of the page -->
-<app-nav *ngIf='showNavbar'></app-nav>
-<router-outlet></router-outlet>
+<app-dashboard *ngIf='!showSlideShow'></app-dashboard>
+<app-slideshow *ngIf='showSlideShow'></app-slideshow>

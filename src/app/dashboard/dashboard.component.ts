@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IBuildingModel } from '../models/building.model';
-import { BuildingService } from '../services/building.service';
 import { SensorService } from '../services/sensor.service';
-import { ISensorModel } from '../models/sensor.model';
-import { ActivatedRoute } from '@angular/router';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators'
+
 
 @Component({
   selector: 'app-dashboard',
@@ -11,19 +10,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  building:IBuildingModel;
-  sensors:ISensorModel[] = [];
-
-  constructor(private _buildingService:BuildingService,
-    private _sensorService:SensorService,
-    private _route:ActivatedRoute) {}
+  count = 0;
+  timer;
+  sensorReadings = [];
+  constructor(private sensorService:SensorService) { }
 
   ngOnInit() {
-    const building_id = +this._route.snapshot.queryParams["id"];
-    this.building = this._buildingService.getBuilding(building_id);
-    this.sensors.push(this._sensorService.getSensor(2));
+   
   }
+
+
+
 }
-
-
-

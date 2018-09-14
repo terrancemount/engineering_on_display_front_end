@@ -3,21 +3,40 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "EodDashboard": {
+    "EngineeringOnDisplay": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "styleext": "scss",
+          "spec": false
+        },
+        "@schematics/angular:class": {
+          "spec": false
+        },
+        "@schematics/angular:directive": {
+          "spec": false
+        },
+        "@schematics/angular:guard": {
+          "spec": false
+        },
+        "@schematics/angular:module": {
+          "spec": false
+        },
+        "@schematics/angular:pipe": {
+          "spec": false
+        },
+        "@schematics/angular:service": {
+          "spec": false
         }
       },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../eod-uaa-server/public",
+            "outputPath": "dist/EngineeringOnDisplay",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -54,18 +73,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "EodDashboard:build"
+            "browserTarget": "EngineeringOnDisplay:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "EodDashboard:build:production"
+              "browserTarget": "EngineeringOnDisplay:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "EodDashboard:build"
+            "browserTarget": "EngineeringOnDisplay:build"
           }
         },
         "test": {
@@ -99,7 +118,7 @@
         }
       }
     },
-    "EodDashboard-e2e": {
+    "EngineeringOnDisplay-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -107,7 +126,12 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "EodDashboard:serve"
+            "devServerTarget": "EngineeringOnDisplay:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "EngineeringOnDisplay:serve:production"
+            }
           }
         },
         "lint": {
@@ -122,5 +146,5 @@
       }
     }
   },
-  "defaultProject": "EodDashboard"
+  "defaultProject": "EngineeringOnDisplay"
 }

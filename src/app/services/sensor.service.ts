@@ -1,126 +1,128 @@
-import { Injectable } from '@angular/core';
-import { ISensorModel, IYAxisModel } from '../models/sensor.model';
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams  } from '@angular/common/http';
+import { Observable, range, throwError, interval } from 'rxjs';
+import { environment } from '../../environments/environment'
+import { map, filter, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-
-/**
- * CRUD service for handeling sensor config data.  Note: this does not handel the sensor-data.
- */
 export class SensorService {
-  sensors: ISensorModel[];
-  constructor() {
-    this.loadMockSensors();
+  sensorReadings = [];
+  numOfTicks = 7 * 24* 4;
+  $queryTimer;
+  waitTime = 5; //seconds
+  constructor(private http: HttpClient) {}
+
+  setQueryTimer(){
+    setInterval(() => {
+      let last = this.sensorReadings[0].length - 1;
+      this.sensorReadings[0].push(new Date());
+      this.sensorReadings[1].push(Math.random() * 10 + this.sensorReadings[1][last]);
+      this.sensorReadings[2].push(Math.random() * 10 + this.sensorReadings[2][last]);
+      this.sensorReadings[3].push(Math.random() * 10 + this.sensorReadings[3][last]);
+      console.log(this.sensorReadings);
+    }, 1000);
+  }
+
+  // checkSensorReadings(){
+  //   console.log('check sensor readings '  + this.sensorReadings);
+  // }
+
+  /**
+   * Get the sensor reading array from the service once the service has retrieved it from the server.
+   * @param callback for when the request is complete or gives an error after wait time in seconds
+   */
+  getSensorReadingArray(callback){
+    if(!this.sensorReadings.length){ //if noting in sensorReadings then
+
+      let time = this.floorCurrentTimeToFifteenMinutes();
+      let ticks = this.numOfTicks;
+
+      this.requestSensorReadingsFromServer(time, ticks, (err, data) => {
+        if(err){
+          callback(err, null);
+        } else {
+          this.sensorReadings = data;
+          callback(err, data);
+        }
+      });
+      this.setQueryTimer();
+    } else {
+      callback(null, this.sensorReadings);
+    }
+  }
+
+  // let ticks = this.calcTicksNeeded(floorCurrentTime);
+  //let floorCurrentTime = this.floorTimeFifteenMinutes();
+
+  /**
+   * Get the sensor readings from the server to store in SensorService
+   * @param callback is the callback used when the observable has returned data from server.
+   */
+   private requestSensorReadingsFromServer(time, ticks, callback){
+    let results;
+    let params = new HttpParams()
+    .set('time', time.toString())
+    .set('ticks', ticks.toString());
+
+    //get observable from http module
+    let obs = this.http.get(environment.serverURL + `/api/eib`, { params: params }).pipe(
+      //tap(data => console.log(JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+
+    //subscribe to the observable and store the sensor readings in an array for future use.
+    obs.subscribe(
+      data => {
+        results = <any>data;
+      },
+      error => callback({message: `Error with requesting sensor readings ${error}`}, null),
+      () =>{ callback(null, results); }
+    );
+  }
+  /**
+   * Handle Observable errors.  Todo: need to make a logging report
+   * @param err error from an observable
+   */
+  private handleError(err: HttpErrorResponse){
+    let errorMessage = "";
+    if (err.error instanceof ErrorEvent){
+      errorMessage = "An error has occured: "+ err.error.message;
+    } else {
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+    }
+    return throwError(errorMessage);
   }
 
   /**
-   * Get an arry of all sensors availible.
+   * calculate number of ticks needed to make one week of 15 minute ticks
    */
-  getSensors():ISensorModel[]{
-   //mock api
-   return this.sensors;
+  private calcTicksNeeded(comptime){
+    if(!this.sensorReadings.length) { //if sensor readings has not been initalized is length === 0
+      return this.numOfTicks;
+    }
+
+    let lastTime = this.sensorReadings[0][this.sensorReadings[0].length - 1];
+
+    //check for error.  current time should never be greater then last time
+    if(comptime < lastTime) {
+      //todo: make error log here.
+      return 0;
+    }
+
+    let tickDiff = (comptime - lastTime) / (1000 * 60 * 15);
+    return Math.min(Math.trunc(tickDiff), this.numOfTicks); //max number of ticks allowed is in numberOfTicks var
   }
 
-  /**
-   * get an array of sensors for a building
-   * @param buildingId for the building which the array of sensors will be from.
-   */
-  getSensorsForBuilding(buildingId:number):ISensorModel[]{
-    //mock api
-    return this.sensors.filter(sensor => sensor.buildingId === buildingId);
-  }
-  /**
-   * Get the model for a particular sensor.
-   * @param id for the sensor to be returned.
-   */
-  getSensor(id:number):ISensorModel{
-    //mock api
-    return this.sensors.find(sensor => sensor.id === id);
-  }
 
-  /**
-   * Post a sensor to the api.
-   * @param sensor is the ISensorModel for the new sensor.
-   */
-  postSensor(sensor:ISensorModel):number{
-    sensor.id  = 1 + Math.max(...this.sensors.map(s => s.id));
-    this.sensors.push(sensor);
-    return sensor.id;
-  }
-  /**
-   * Update an existing sensor to the api. Currently it is a replace everything method.
-   * @param sensor is the ISensorModel for the new sensor.
-   */
-  updateSensor(sensor:ISensorModel):number{
-    const index = this.sensors.findIndex(s => s.id === sensor.id);
-    this.sensors[index] = sensor;
-    return sensor.id;
-  }
 
-  /**
-   * Delete a sensor with given id.
-   * @param id of the senor to delete
-   */
-  deleteSensor(id:number){
-    const index = this.sensors.findIndex(s => s.id === id);
-    this.sensors.splice(index, 1);
-  }
-
-  /**
-   * Private method to load a Mock API with data.
-   */
-  private loadMockSensors() {
-    this.sensors = [{
-      id: 1,
-      buildingId: 1,
-      label: 'Electrical Usage kWh',
-      borderColor: 'rgb(255, 205, 86)',
-      backgroundColor: 'rgb(255, 205, 86)',
-      yAxisID: 1,
-      iconUrl: '../assets/img/Electrical.png'
-    }, {
-      id: 2,
-      buildingId: 1,
-      label: 'Electrical Demand kW',
-      borderColor: 'rgb(255,204,153)',
-      backgroundColor: 'rgb(255,204,153)',
-      yAxisID: 2,
-      iconUrl: '../assets/img/Electrical.png'
-    }, {
-      id: 3,
-      buildingId: 1,
-      label: 'Natural Gas Usage kBTU',
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgb(255, 99, 132)',
-      yAxisID: 3,
-      iconUrl: '../assets/img/NaturalGas.png'
-    }, {
-      id: 4,
-      buildingId: 1,
-      label: 'Outside Temperature',
-      borderColor: 'rgb(201, 203, 207)',
-      backgroundColor: 'rgb(201, 203, 207)',
-      yAxisID: 5,
-      iconUrl: '../assets/img/OutsideTemperature.png'
-    }, {
-      id: 5,
-      buildingId: 2,
-      label: 'Electrical Demand kW',
-      borderColor: 'rgb(255, 205, 86)',
-      backgroundColor: 'rgb(255, 205, 86)',
-      yAxisID: 2,
-      iconUrl: '../assets/img/Electrical.png'
-    }, {
-      id: 6,
-      buildingId: 2,
-      label: 'Electrical Usage kWh',
-      borderColor: 'rgb(255, 205, 86)',
-      backgroundColor: 'rgb(255, 205, 86)',
-      yAxisID: 1,
-      iconUrl: '../assets/img/Electrical.png'
-    }];
-  }
+  floorCurrentTimeToFifteenMinutes(){
+    let dt = new Date();
+    let minutes = Math.floor(dt.getMinutes()/15) * 15;
+    dt.setMinutes(minutes);
+    dt.setSeconds(0);
+    dt.setMilliseconds(0);
+    return dt.getTime();
 }
-
-
+}
